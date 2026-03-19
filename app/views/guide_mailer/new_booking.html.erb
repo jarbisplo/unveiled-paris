@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { background: #0e0e0e; color: #e8e0d0; font-family: system-ui, sans-serif; font-size: 15px; line-height: 1.7; margin: 0; padding: 0; }
+    .wrap { max-width: 520px; margin: 0 auto; padding: 48px 32px; }
+    .header { border-bottom: 1px solid #242424; padding-bottom: 20px; margin-bottom: 32px; display: flex; justify-content: space-between; align-items: baseline; }
+    .brand { font-family: Georgia, serif; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #b8975a; }
+    .badge { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6a9a6a; background: rgba(100,160,100,0.1); border: 1px solid rgba(100,160,100,0.2); padding: 3px 10px; border-radius: 20px; }
+    h1 { font-family: Georgia, serif; font-size: 26px; font-weight: 400; color: #e8e0d0; margin: 0 0 6px; }
+    .subtitle { font-size: 13px; color: #7a7060; margin: 0 0 32px; }
+    .row { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid #1e1e1e; }
+    .label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #7a7060; min-width: 110px; padding-top: 1px; flex-shrink: 0; }
+    .value { font-size: 14px; color: #e8e0d0; }
+    .notes { margin-top: 24px; padding: 16px 20px; background: #161616; border-left: 2px solid #b8975a; border-radius: 2px; }
+    .notes-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #7a7060; margin-bottom: 8px; }
+    .footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid #242424; font-size: 12px; color: #3a3a3a; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <span class="brand">Unveiled Paris</span>
+      <span class="badge">New Booking</span>
+    </div>
+
+    <h1><%= @booking.full_name %></h1>
+    <p class="subtitle">Submitted <%= Time.now.strftime("%B %d, %Y at %H:%M UTC") %></p>
+
+    <div class="row"><span class="label">Tour</span><span class="value"><%= @booking.package.name %></span></div>
+    <div class="row"><span class="label">Date</span><span class="value"><%= @booking.tour_date&.strftime("%A, %B %d, %Y") %></span></div>
+    <div class="row"><span class="label">Group size</span><span class="value"><%= @booking.group_size %> <%= @booking.group_size == 1 ? 'person' : 'people' %></span></div>
+    <div class="row"><span class="label">Duration</span><span class="value"><%= @booking.package.duration %></span></div>
+    <div class="row"><span class="label">Email</span><span class="value"><%= @booking.email %></span></div>
+    <div class="row"><span class="label">Phone</span><span class="value"><%= @booking.phone %></span></div>
+    <div class="row"><span class="label">Status</span><span class="value" style="color:#6a9a6a; text-transform:capitalize;"><%= @booking.status %></span></div>
+
+    <% if @booking.special_requests.present? %>
+      <div class="notes">
+        <div class="notes-label">Client notes</div>
+        <div style="font-size:14px; color:#c8c0b0;"><%= @booking.special_requests %></div>
+      </div>
+    <% end %>
+
+    <div class="footer">
+      Reply to this email or contact the client directly at <%= @booking.email %>.
+    </div>
+  </div>
+</body>
+</html>

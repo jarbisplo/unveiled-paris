@@ -1,0 +1,17 @@
+Unveiled Paris — New Booking
+-----------------------------
+
+<%= @booking.full_name %> just booked a tour.
+
+Tour:       <%= @booking.package.name %>
+Date:       <%= @booking.tour_date&.strftime("%A, %B %d, %Y") %>
+Group:      <%= @booking.group_size %> <%= @booking.group_size == 1 ? 'person' : 'people' %>
+Duration:   <%= @booking.package.duration %>
+Email:      <%= @booking.email %>
+Phone:      <%= @booking.phone %>
+Status:     <%= @booking.status %>
+<% if @booking.special_requests.present? %>
+Notes:      <%= @booking.special_requests %>
+<% end %>
+
+Submitted <%= Time.now.strftime("%B %d, %Y at %H:%M UTC") %>

@@ -16,6 +16,7 @@ class BookingsController < ApplicationController
       else
         @booking.update_column(:status, Booking.statuses[:confirmed])
         BookingMailer.confirmation(@booking).deliver_later
+        GuideMailer.new_booking(@booking).deliver_later
         redirect_to booking_success_path
       end
     else
@@ -32,6 +33,7 @@ class BookingsController < ApplicationController
       if @booking && stripe_session.payment_status == "paid"
         @booking.update(status: :confirmed, amount_paid_cents: stripe_session.amount_total)
         BookingMailer.confirmation(@booking).deliver_later
+        GuideMailer.new_booking(@booking).deliver_later
       end
     end
   end
