@@ -4,18 +4,18 @@ Package.create!([
   {
     name: "The Marais at Noon",
     slug: "marais-at-noon",
-    tagline: "3 hours · $149 per person",
+    tagline: "3 hours · $350 per person",
     description: "The old Jewish quarter before the tourists figure out where the good falafel is. We walk slowly.",
-    price_cents: 14900,
+    price_cents: 35000,
     duration: "3 hours",
     stripe_price_id: ""
   },
   {
     name: "A Full Day, Properly",
     slug: "full-day",
-    tagline: "8 hours · $349 per person",
+    tagline: "8 hours · $1,500 per tour",
     description: "Markets in the morning, a long lunch somewhere you would never find on your own, two galleries in the afternoon. No rushing.",
-    price_cents: 34900,
+    price_cents: 150000,
     duration: "8 hours",
     stripe_price_id: ""
   },

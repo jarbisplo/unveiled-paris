@@ -56,7 +56,7 @@
     <div style="margin-bottom:16px;">
       <label style="display:block; font-size:11px; letter-spacing:0.08em; color:var(--dim); text-transform:uppercase; margin-bottom:6px;">Tour</label>
       <%= f.select :package_id,
-          @packages.map { |p| ["#{p.name} — #{p.formatted_price}/person · #{p.duration}", p.id] },
+          @packages.map { |p| ["#{p.name} — #{p.formatted_price} #{p.price_label} · #{p.duration}", p.id] },
           { include_blank: "Select a tour", selected: params[:package_id] } %>
     </div>
 
