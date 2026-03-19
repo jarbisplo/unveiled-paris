@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://unveiledparis.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <lastmod><%= Date.today.iso8601 %></lastmod>
+  </url>
+  <url>
+    <loc>https://unveiledparis.com/book</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <% @packages.each do |package| %>
+  <url>
+    <loc>https://unveiledparis.com/book?package_id=<%= package.id %></loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <% end %>
+</urlset>

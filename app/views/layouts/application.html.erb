@@ -1,9 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title><%= content_for(:title) || "Unveiled Paris" %></title>
+    <%# ── Core ──────────────────────────────────────────────── %>
+    <title><%= content_for(:title).present? ? "#{content_for(:title)} | Unveiled Paris" : "Unveiled Paris — Private Tours in Paris for Americans" %></title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="Unveiled Paris — private guided tours for American visitors. Hidden neighborhoods, long lunches, no crowds.">
+    <meta name="description" content="<%= content_for(:description).present? ? content_for(:description) : "Private guided tours in Paris for American visitors. Hidden neighborhoods, long lunches, no crowds. Maximum 6 guests. English throughout." %>">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<%= content_for(:canonical).present? ? content_for(:canonical) : request.original_url.split('?').first %>">
+
+    <%# ── Open Graph ─────────────────────────────────────────── %>
+    <meta property="og:site_name" content="Unveiled Paris">
+    <meta property="og:type" content="<%= content_for(:og_type).present? ? content_for(:og_type) : "website" %>">
+    <meta property="og:title" content="<%= content_for(:title).present? ? "#{content_for(:title)} | Unveiled Paris" : "Unveiled Paris — Private Tours in Paris for Americans" %>">
+    <meta property="og:description" content="<%= content_for(:description).present? ? content_for(:description) : "Private guided tours in Paris for American visitors. Hidden neighborhoods, long lunches, no crowds." %>">
+    <meta property="og:url" content="<%= request.original_url.split('?').first %>">
+    <meta property="og:image" content="https://unveiledparis.com<%= content_for(:og_image).present? ? content_for(:og_image) : "/og-image.jpg" %>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+
+    <%# ── Twitter Card ───────────────────────────────────────── %>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= content_for(:title).present? ? "#{content_for(:title)} | Unveiled Paris" : "Unveiled Paris — Private Tours in Paris for Americans" %>">
+    <meta name="twitter:description" content="<%= content_for(:description).present? ? content_for(:description) : "Private guided tours in Paris for American visitors. Hidden neighborhoods, long lunches, no crowds." %>">
+    <meta name="twitter:image" content="https://unveiledparis.com<%= content_for(:og_image).present? ? content_for(:og_image) : "/og-image.jpg" %>">
+
+    <%# ── Structured data ────────────────────────────────────── %>
+    <%= yield :json_ld %>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>

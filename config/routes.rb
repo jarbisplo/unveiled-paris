@@ -10,5 +10,6 @@ Rails.application.routes.draw do
     resources :bookings, only: [:index, :show]
   end
 
+  get "sitemap.xml", to: "sitemaps#index", defaults: { format: :xml }
   get "up" => "rails/health#show", as: :rails_health_check
 end

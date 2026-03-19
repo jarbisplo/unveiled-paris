@@ -1,3 +1,51 @@
+<%# ── SEO ──────────────────────────────────────────────────────── %>
+<% content_for :title, "Private Tours in Paris" %>
+<% content_for :description, "Private guided tours in Paris for Americans — hidden neighborhoods, long lunches, the places guidebooks miss. Maximum 6 guests. English throughout. From $149 per person." %>
+<% content_for :canonical, "https://unveiledparis.com/" %>
+
+<% content_for :json_ld do %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TouristInformationCenter",
+  "name": "Unveiled Paris",
+  "description": "Private guided tours in Paris for American visitors. Hidden neighborhoods, long lunches, the places guidebooks miss.",
+  "url": "https://unveiledparis.com",
+  "telephone": "",
+  "email": "hello@mail.unveiledparis.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Paris",
+    "addressCountry": "FR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 48.8566,
+    "longitude": 2.3522
+  },
+  "priceRange": "$149 - $349",
+  "openingHours": "Mo-Su 08:00-20:00",
+  "sameAs": [],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Private Tours",
+    "itemListElement": [
+      <% @packages.each_with_index do |p, i| %>
+      {
+        "@type": "Offer",
+        "name": "<%= p.name %>",
+        "description": "<%= p.description&.gsub('"', '\\"') %>",
+        "price": "<%= p.price %>",
+        "priceCurrency": "USD",
+        "url": "https://unveiledparis.com/book?package_id=<%= p.id %>"
+      }<%= i < @packages.length - 1 ? ',' : '' %>
+      <% end %>
+    ]
+  }
+}
+</script>
+<% end %>
+
 <%# ── Navigation ──────────────────────────────────────────────── %>
 <nav style="position:fixed; top:0; left:0; right:0; z-index:50; padding:20px 32px; display:flex; align-items:center; justify-content:space-between; background: linear-gradient(to bottom, rgba(14,14,14,0.95), transparent);">
   <span class="serif" style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--parchment);">Unveiled Paris</span>
