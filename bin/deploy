@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+SERVER="deploy@143.198.56.81"
+SSH_KEY="$HOME/.ssh/do_unveiled"
+APP_DIR="/home/deploy/apps/unveiled-paris"
+RBENV="export PATH=\"\$HOME/.rbenv/bin:\$PATH\" && eval \"\$(rbenv init -)\""
+
+echo "==> Pushing to GitHub..."
+git push origin main
+
+echo "==> Deploying to server..."
+ssh -i "$SSH_KEY" "$SERVER" "
+  $RBENV
+  cd $APP_DIR
+  git pull
+  bundle install --quiet
+  bundle exec rails tailwindcss:build
+  bundle exec rails assets:precompile
+  set -a && source .env && set +a
+  bundle exec rails db:migrate
+  rm -rf tmp/cache
+  sudo systemctl restart unveiled-puma
+  echo 'Done.'
+"
+
+echo "==> Live at https://unveiledparis.com"
