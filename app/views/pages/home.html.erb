@@ -118,7 +118,7 @@
 </section>
 
 <%# ── Hidden gems ─────────────────────────────────────────── %>
-<section style="padding:80px 32px; max-width:860px; margin:0 auto;">
+<section id="places" style="padding:80px 32px; max-width:860px; margin:0 auto;">
   <div style="border-top:1px solid var(--border); margin-bottom:48px;"></div>
   <h3 class="serif" style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim); margin:0 0 48px;">A few places we tend to end up</h3>
 
@@ -148,10 +148,56 @@
 </section>
 
 <%# ── Footer ──────────────────────────────────────────────── %>
-<footer style="padding:32px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
-  <span class="serif" style="font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dim);">Paris Unveiled</span>
-  <span style="font-size:12px; color:var(--dim);">hello@unveiledparis.com</span>
-  <span style="font-size:11px; color:#3a3a3a;">&copy; <%= Date.today.year %></span>
+<footer style="border-top:1px solid var(--border); background:var(--surface);">
+  <div style="max-width:900px; margin:0 auto; padding:64px 32px 40px; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px;" class="footer-grid">
+
+    <div>
+      <p class="serif" style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--parchment); margin:0 0 14px;">Paris Unveiled</p>
+      <p style="font-size:13px; color:var(--dim); line-height:1.7; margin:0 0 20px; max-width:220px;">Private guided tours for Americans who want more than the standard itinerary.</p>
+      <a href="mailto:hello@unveiledparis.com" style="font-size:12px; color:var(--brass);">hello@unveiledparis.com</a>
+    </div>
+
+    <div>
+      <p style="font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim); margin:0 0 16px; font-weight:600;">Tours</p>
+      <ul style="list-style:none; margin:0; padding:0;">
+        <% @packages.each do |p| %>
+          <li style="margin-bottom:10px;">
+            <%= link_to p.name, new_booking_path(package_id: p.id),
+                style: "font-size:13px; color:var(--dim);",
+                onmouseover: "this.style.color='var(--parchment)'",
+                onmouseout:  "this.style.color='var(--dim)'" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div>
+      <p style="font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim); margin:0 0 16px; font-weight:600;">Info</p>
+      <ul style="list-style:none; margin:0; padding:0;">
+        <% [["How it works", "#tours"], ["The places", "#places"], ["Reserve", new_booking_path]].each do |label, href| %>
+          <li style="margin-bottom:10px;">
+            <a href="<%= href %>" style="font-size:13px; color:var(--dim);"
+               onmouseover="this.style.color='var(--parchment)'"
+               onmouseout="this.style.color='var(--dim)'"><%= label %></a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div>
+      <p style="font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim); margin:0 0 16px; font-weight:600;">Contact</p>
+      <ul style="list-style:none; margin:0; padding:0;">
+        <li style="margin-bottom:10px;"><a href="mailto:hello@unveiledparis.com" style="font-size:13px; color:var(--dim);" onmouseover="this.style.color='var(--parchment)'" onmouseout="this.style.color='var(--dim)'">Email us</a></li>
+        <li style="margin-bottom:10px;"><span style="font-size:13px; color:var(--dim);">Response within 24h</span></li>
+        <li><span style="font-size:13px; color:var(--dim);">Tours run year-round</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="max-width:900px; margin:0 auto; padding:20px 32px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+    <span style="font-size:11px; color:#3a3a3a;">&copy; <%= Date.today.year %> Paris Unveiled. All rights reserved.</span>
+    <span style="font-size:11px; color:#3a3a3a;">unveiledparis.com</span>
+  </div>
 </footer>
 
 <style>
@@ -160,9 +206,8 @@
     section { padding-left: 20px !important; padding-right: 20px !important; }
     section > div { grid-template-columns: 1fr !important; gap: 40px !important; }
     h2, h1 { font-size: clamp(36px, 10vw, 60px) !important; }
-    p[style*="margin-left:48px"], div[style*="margin:0 0 0 48px"], div[style*="margin:20px 0 0 48px"] {
-      margin-left: 0 !important;
-    }
-    footer { flex-direction: column; align-items: flex-start; }
+    p[style*="margin-left:48px"], div[style*="margin:0 0 0 48px"], div[style*="margin:20px 0 0 48px"] { margin-left: 0 !important; }
+    .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+    .footer-grid > div:first-child { grid-column: 1 / -1; }
   }
 </style>
