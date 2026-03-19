@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { background:#0e0e0e; color:#e8e0d0; font-family:system-ui,sans-serif; font-size:15px; line-height:1.7; margin:0; padding:0; }
+    .wrap { max-width:520px; margin:0 auto; padding:48px 32px; }
+    .header { border-bottom:1px solid #242424; padding-bottom:24px; margin-bottom:32px; }
+    .name { font-family:Georgia,serif; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:#b8975a; }
+    h1 { font-family:Georgia,serif; font-size:28px; font-weight:400; color:#e8e0d0; margin:0 0 24px; }
+    .row { display:flex; gap:16px; padding:12px 0; border-bottom:1px solid #1e1e1e; }
+    .label { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#7a7060; min-width:100px; }
+    .value { font-size:14px; color:#e8e0d0; }
+    .footer { margin-top:40px; padding-top:24px; border-top:1px solid #242424; font-size:12px; color:#7a7060; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <span class="name">Paris in Private</span>
+    </div>
+    <h1>Your tour is confirmed.</h1>
+    <p style="color:#7a7060; margin:0 0 32px;">Here is what you booked. We will be in touch closer to the date with any details worth knowing.</p>
+
+    <div class="row"><span class="label">Tour</span><span class="value"><%= @booking.package.name %></span></div>
+    <div class="row"><span class="label">Date</span><span class="value"><%= @booking.tour_date&.strftime("%B %d, %Y") %></span></div>
+    <div class="row"><span class="label">Guests</span><span class="value"><%= @booking.group_size %></span></div>
+    <% if @booking.special_requests.present? %>
+      <div class="row"><span class="label">Notes</span><span class="value"><%= @booking.special_requests %></span></div>
+    <% end %>
+
+    <div class="footer">
+      <p style="margin:0 0 4px;">Questions? hello@parisinprivate.com</p>
+      <p style="margin:0;">We look forward to it.</p>
+    </div>
+  </div>
+</body>
+</html>

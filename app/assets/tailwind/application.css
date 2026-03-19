@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  --stone: #0e0e0e;
+  --parchment: #e8e0d0;
+  --brass: #b8975a;
+  --dim: #7a7060;
+  --border: #242424;
+  --surface: #161616;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--stone);
+  color: var(--parchment);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.serif { font-family: Georgia, "Times New Roman", serif; }
+
+::selection {
+  background: var(--brass);
+  color: var(--stone);
+}
+
+input, select, textarea {
+  background: var(--surface);
+  color: var(--parchment);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 14px;
+  width: 100%;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--brass);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--dim);
+}
+
+select option {
+  background: var(--surface);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

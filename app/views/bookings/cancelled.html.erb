@@ -1,0 +1,19 @@
+<% content_for :title, "Reservation not completed — Paris in Private" %>
+
+<nav style="padding:20px 32px; border-bottom:1px solid var(--border);">
+  <span class="serif" style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--parchment);">
+    <%= link_to "Paris in Private", root_path %>
+  </span>
+</nav>
+
+<div style="max-width:520px; margin:120px auto; padding:0 32px; text-align:center;">
+  <h1 class="serif" style="font-size:36px; font-weight:400; color:var(--parchment); margin:0 0 20px;">Payment not completed.</h1>
+  <p style="font-size:15px; color:var(--dim); line-height:1.8; margin:0 0 48px;">
+    Your reservation was not confirmed. No charge was made.
+  </p>
+  <div style="display:flex; gap:24px; justify-content:center; flex-wrap:wrap;">
+    <%= link_to "Try again", new_booking_path, style: "font-size:13px; color:var(--brass); border-bottom:1px solid rgba(185,151,90,0.4); padding-bottom:1px;" %>
+    <span style="color:var(--border);">|</span>
+    <%= link_to "Back to home", root_path, style: "font-size:13px; color:var(--dim); border-bottom:1px solid var(--border); padding-bottom:1px;" %>
+  </div>
+</div>

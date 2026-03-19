@@ -1,0 +1,56 @@
+<% content_for :title, "Bookings — Admin" %>
+
+<div style="padding:40px 32px; max-width:1100px; margin:0 auto;">
+  <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:40px;">
+    <h1 class="serif" style="font-size:28px; font-weight:400; color:var(--parchment); margin:0;">Bookings</h1>
+    <span style="font-size:13px; color:var(--dim);"><%= @bookings.total_count %> total</span>
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table style="width:100%; border-collapse:collapse; font-size:13px;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left; padding:10px 16px 10px 0; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Name</th>
+          <th style="text-align:left; padding:10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Email</th>
+          <th style="text-align:left; padding:10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Tour</th>
+          <th style="text-align:left; padding:10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Date</th>
+          <th style="text-align:center; padding:10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Guests</th>
+          <th style="text-align:left; padding:10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Status</th>
+          <th style="text-align:right; padding:10px 0 10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Paid</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @bookings.each do |booking| %>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:14px 16px 14px 0; color:var(--parchment);">
+              <%= link_to booking.full_name, admin_booking_path(booking), style: "border-bottom:1px solid var(--border);" %>
+            </td>
+            <td style="padding:14px 16px; color:var(--dim);"><%= booking.email %></td>
+            <td style="padding:14px 16px; color:var(--dim);"><%= booking.package.name %></td>
+            <td style="padding:14px 16px; color:var(--dim);"><%= booking.tour_date&.strftime("%b %d, %Y") %></td>
+            <td style="padding:14px 16px; text-align:center; color:var(--dim);"><%= booking.group_size %></td>
+            <td style="padding:14px 16px;">
+              <% color = booking.confirmed? ? "#6a9a6a" : booking.cancelled? ? "#9a5a5a" : "#8a8070" %>
+              <span style="font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:<%= color %>;"><%= booking.status %></span>
+            </td>
+            <td style="padding:14px 0 14px 16px; text-align:right; color:var(--dim);">
+              <% if booking.amount_paid_cents.to_i > 0 %>
+                $<%= booking.amount_paid_cents / 100 %>
+              <% else %>
+                —
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if @bookings.empty? %>
+    <p style="padding:48px 0; text-align:center; color:var(--dim); font-size:14px;">No bookings yet.</p>
+  <% end %>
+
+  <div style="margin-top:32px;">
+    <%= paginate @bookings %>
+  </div>
+</div>

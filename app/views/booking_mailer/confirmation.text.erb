@@ -1,0 +1,15 @@
+Paris in Private — Reservation Confirmed
+-----------------------------------------
+
+Your tour is confirmed, <%= @booking.first_name %>.
+
+Tour:   <%= @booking.package.name %>
+Date:   <%= @booking.tour_date&.strftime("%B %d, %Y") %>
+Guests: <%= @booking.group_size %>
+<% if @booking.special_requests.present? %>
+Notes:  <%= @booking.special_requests %>
+<% end %>
+
+We will be in touch closer to the date.
+
+Questions? hello@parisinprivate.com

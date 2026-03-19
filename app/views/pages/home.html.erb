@@ -1,0 +1,120 @@
+<%# ── Navigation ──────────────────────────────────────────────── %>
+<nav style="position:fixed; top:0; left:0; right:0; z-index:50; padding:20px 32px; display:flex; align-items:center; justify-content:space-between; background: linear-gradient(to bottom, rgba(14,14,14,0.95), transparent);">
+  <span class="serif" style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--parchment);">Paris in Private</span>
+  <%= link_to "Reserve a spot", new_booking_path, style: "font-size:12px; letter-spacing:0.06em; color:var(--brass); border-bottom:1px solid var(--brass); padding-bottom:1px;" %>
+</nav>
+
+<%# ── Hero ─────────────────────────────────────────────────── %>
+<section style="min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end; padding:0 32px 80px; position:relative; overflow:hidden;">
+  <div style="position:absolute; inset:0; background:var(--stone); opacity:0.96;"></div>
+  <div style="position:absolute; inset:0; background: radial-gradient(ellipse at 30% 60%, rgba(185,151,90,0.04) 0%, transparent 60%);"></div>
+  <div style="position:relative; max-width:680px;">
+    <h1 class="serif" style="font-size:clamp(42px,8vw,88px); line-height:1.0; font-weight:400; color:var(--parchment); margin:0 0 28px;">
+      The Paris they<br>
+      <em style="color:var(--brass);">stopped photographing.</em>
+    </h1>
+    <p style="font-size:16px; color:var(--dim); max-width:420px; margin:0 0 40px; line-height:1.7;">
+      Private guided tours for people who have already seen the tower.
+    </p>
+    <a href="#tours" style="font-size:13px; color:var(--parchment); letter-spacing:0.08em; border-bottom:1px solid rgba(232,224,208,0.3); padding-bottom:2px;">
+      See what we do
+    </a>
+  </div>
+</section>
+
+<%# ── Packages ─────────────────────────────────────────────── %>
+<section id="tours" style="padding:80px 32px; max-width:860px; margin:0 auto;">
+  <div style="border-top:1px solid var(--border); margin-bottom:64px;"></div>
+
+  <% @packages.each_with_index do |package, i| %>
+    <div style="padding:40px 0; border-bottom:1px solid var(--border);">
+      <div style="display:flex; align-items:baseline; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom:12px;">
+        <div style="display:flex; align-items:baseline; gap:24px;">
+          <span style="font-size:11px; color:var(--dim); letter-spacing:0.1em; min-width:24px; font-variant-numeric:tabular-nums;">0<%= i + 1 %></span>
+          <h2 class="serif" style="font-size:clamp(22px,3.5vw,32px); font-weight:400; color:var(--parchment); margin:0;"><%= package.name %></h2>
+        </div>
+        <div style="text-align:right; flex-shrink:0;">
+          <span style="font-size:18px; color:var(--brass); font-variant-numeric:tabular-nums;"><%= package.formatted_price %></span>
+          <span style="font-size:12px; color:var(--dim); margin-left:6px;">per person</span>
+          <br>
+          <span style="font-size:11px; color:var(--dim);"><%= package.duration %></span>
+        </div>
+      </div>
+      <p style="font-size:14px; color:var(--dim); margin:0 0 0 48px; max-width:480px; line-height:1.7;"><%= package.description %></p>
+      <div style="margin:20px 0 0 48px;">
+        <%= link_to "Reserve this tour", new_booking_path(package_id: package.id),
+            style: "font-size:12px; color:var(--brass); letter-spacing:0.06em; border-bottom:1px solid rgba(185,151,90,0.35); padding-bottom:1px;" %>
+      </div>
+    </div>
+  <% end %>
+
+  <p style="margin-top:40px; margin-left:48px; font-size:13px; color:var(--dim); max-width:440px; line-height:1.7;">
+    All tours are private. Maximum six guests. English throughout. We do not do group tours.
+  </p>
+</section>
+
+<%# ── Editorial section ───────────────────────────────────── %>
+<section style="padding:80px 32px; border-top:1px solid var(--border); background:var(--surface);">
+  <div style="max-width:900px; margin:0 auto; display:grid; grid-template-columns:2fr 3fr; gap:64px; align-items:start;">
+    <div>
+      <blockquote class="serif" style="font-size:clamp(18px,2.4vw,26px); font-style:italic; line-height:1.5; color:var(--parchment); margin:0;">
+        "Most visitors leave Paris having seen it. Our guests leave having been in it."
+      </blockquote>
+    </div>
+    <div style="font-size:14px; color:var(--dim); line-height:1.8;">
+      <p style="margin:0 0 20px;">There is no script. Every tour is built around who you are and what you want — and then adjusted on the day depending on the light, the weather, what is happening in the neighborhood. We have been doing this long enough to know that the best moments are the ones you do not plan for.</p>
+      <p style="margin:0 0 20px;">Our guides were born here. They eat in these places, drink in these bars, know which boulangerie is worth the detour and which ones are just well-positioned. You will not get recommendations from a list.</p>
+      <p style="margin:0;">We cap every group at six people. Not because it sounds boutique — because more than that and the good restaurants will not let you in.</p>
+    </div>
+  </div>
+</section>
+
+<%# ── Hidden gems ─────────────────────────────────────────── %>
+<section style="padding:80px 32px; max-width:860px; margin:0 auto;">
+  <div style="border-top:1px solid var(--border); margin-bottom:48px;"></div>
+  <h3 class="serif" style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim); margin:0 0 48px;">A few places we tend to end up</h3>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0;">
+    <% [
+      ["Passage Brady", "A covered market from 1828 that smells like cumin and has not changed much since."],
+      ["Sainte-Chapelle", "Every tourist goes to Notre-Dame. Almost none of them come here, fifteen minutes away, where the light through the glass stops you mid-sentence."],
+      ["Rue Cremieux", "A narrow street of painted houses in the 12th that most people know only from photographs. We go on a Tuesday morning when no one is there."],
+      ["Le Verre Vole", "A natural wine bar in the 10th that does not take reservations and has the best cheese plate in the city."]
+    ].each do |name, desc| %>
+      <div style="padding:32px 32px 32px 0; border-bottom:1px solid var(--border);">
+        <p class="serif" style="font-size:16px; color:var(--parchment); margin:0 0 8px;"><%= name %></p>
+        <p style="font-size:13px; color:var(--dim); margin:0; line-height:1.7;"><%= desc %></p>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<%# ── CTA strip ───────────────────────────────────────────── %>
+<section style="padding:80px 32px; border-top:1px solid var(--border); text-align:center;">
+  <h2 class="serif" style="font-size:clamp(28px,5vw,52px); font-weight:400; color:var(--parchment); margin:0 0 20px;">
+    Ready when you are.
+  </h2>
+  <p style="font-size:14px; color:var(--dim); margin:0 0 36px;">Tours run year-round. Response within 24 hours.</p>
+  <%= link_to "Check availability", new_booking_path,
+      style: "display:inline-block; padding:12px 32px; border:1px solid var(--brass); color:var(--brass); font-size:13px; letter-spacing:0.08em;" %>
+</section>
+
+<%# ── Footer ──────────────────────────────────────────────── %>
+<footer style="padding:32px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+  <span class="serif" style="font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dim);">Paris in Private</span>
+  <span style="font-size:12px; color:var(--dim);">hello@parisinprivate.com</span>
+  <span style="font-size:11px; color:#3a3a3a;">&copy; <%= Date.today.year %></span>
+</footer>
+
+<style>
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    section { padding-left: 20px !important; padding-right: 20px !important; }
+    section > div { grid-template-columns: 1fr !important; gap: 40px !important; }
+    h2, h1 { font-size: clamp(36px, 10vw, 60px) !important; }
+    p[style*="margin-left:48px"], div[style*="margin:0 0 0 48px"], div[style*="margin:20px 0 0 48px"] {
+      margin-left: 0 !important;
+    }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>

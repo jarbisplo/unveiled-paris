@@ -1,0 +1,81 @@
+<% content_for :title, "Reserve a tour — Paris in Private" %>
+
+<nav style="padding:20px 32px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border);">
+  <span class="serif" style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--parchment);">
+    <%= link_to "Paris in Private", root_path %>
+  </span>
+</nav>
+
+<div style="max-width:560px; margin:0 auto; padding:64px 32px 80px;">
+  <h1 class="serif" style="font-size:36px; font-weight:400; color:var(--parchment); margin:0 0 8px;">Reserve a tour</h1>
+  <p style="font-size:14px; color:var(--dim); margin:0 0 48px;">Fill this in and we will confirm your dates within 24 hours.</p>
+
+  <% if @booking.errors.any? %>
+    <div style="border:1px solid #5a2a2a; background:#1a0a0a; padding:16px 20px; border-radius:4px; margin-bottom:32px;">
+      <% @booking.errors.full_messages.each do |msg| %>
+        <p style="font-size:13px; color:#c97070; margin:2px 0;"><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= form_with model: @booking, url: bookings_path do |f| %>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+      <div>
+        <label style="display:block; font-size:11px; letter-spacing:0.08em; color:var(--dim); text-transform:uppercase; margin-bottom:6px;">First name</label>
+        <%= f.text_field :first_name, placeholder: "Jane" %>
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; letter-spacing:0.08em; color:var(--dim); text-transform:uppercase; margin-bottom:6px;">Last name</label>
+        <%= f.text_field :last_name, placeholder: "Smith" %>
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <label style="display:block; font-size:11px; letter-spacing:0.08em; color:var(--dim); text-transform:uppercase; margin-bottom:6px;">Email</label>
+      <%= f.email_field :email, placeholder: "jane@example.com" %>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <label style="display:block; font-size:11px; letter-spacing:0.08em; color:var(--dim); text-transform:uppercase; margin-bottom:6px;">Phone</label>
+      <%= f.telephone_field :phone, placeholder: "+1 555 000 0000" %>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+      <div>
+        <label style="display:block; font-size:11px; letter-spacing:0.08em; color:var(--dim); text-transform:uppercase; margin-bottom:6px;">Preferred date</label>
+        <%= f.date_field :tour_date %>
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; letter-spacing:0.08em; color:var(--dim); text-transform:uppercase; margin-bottom:6px;">Group size</label>
+        <%= f.select :group_size, (1..6).map { |n| ["#{n} #{n == 1 ? 'person' : 'people'}", n] }, { include_blank: "How many?" } %>
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <label style="display:block; font-size:11px; letter-spacing:0.08em; color:var(--dim); text-transform:uppercase; margin-bottom:6px;">Tour</label>
+      <%= f.select :package_id,
+          @packages.map { |p| ["#{p.name} — #{p.formatted_price}/person · #{p.duration}", p.id] },
+          { include_blank: "Select a tour", selected: params[:package_id] } %>
+    </div>
+
+    <div style="margin-bottom:40px;">
+      <label style="display:block; font-size:11px; letter-spacing:0.08em; color:var(--dim); text-transform:uppercase; margin-bottom:6px;">Anything else we should know <span style="text-transform:none; letter-spacing:0;">(optional)</span></label>
+      <%= f.text_area :special_requests, rows: 4, placeholder: "Dietary restrictions, mobility considerations, anything worth mentioning." %>
+    </div>
+
+    <button type="submit" style="width:100%; padding:14px; background:var(--brass); color:var(--stone); font-size:13px; letter-spacing:0.1em; text-transform:uppercase; border:none; cursor:pointer; transition:opacity 0.15s;"
+            onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+      Send reservation
+    </button>
+  <% end %>
+
+  <p style="margin-top:20px; font-size:12px; color:var(--dim); text-align:center;">
+    You will be redirected to complete payment after submitting.
+  </p>
+</div>
+
+<style>
+  @media (max-width: 480px) {
+    div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+  }
+</style>

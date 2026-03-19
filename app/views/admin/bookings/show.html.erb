@@ -1,0 +1,36 @@
+<% content_for :title, "#{@booking.full_name} — Admin" %>
+
+<div style="padding:40px 32px; max-width:600px; margin:0 auto;">
+  <p style="margin-bottom:32px;">
+    <%= link_to "← All bookings", admin_root_path, style: "font-size:13px; color:var(--dim); border-bottom:1px solid var(--border); padding-bottom:1px;" %>
+  </p>
+
+  <h1 class="serif" style="font-size:28px; font-weight:400; color:var(--parchment); margin:0 0 8px;"><%= @booking.full_name %></h1>
+
+  <% color = @booking.confirmed? ? "#6a9a6a" : @booking.cancelled? ? "#9a5a5a" : "#8a8070" %>
+  <span style="font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:<%= color %>;"><%= @booking.status %></span>
+
+  <div style="margin-top:40px; border-top:1px solid var(--border);">
+    <% [
+      ["Tour",          @booking.package.name],
+      ["Date",          @booking.tour_date&.strftime("%B %d, %Y")],
+      ["Guests",        @booking.group_size],
+      ["Email",         @booking.email],
+      ["Phone",         @booking.phone],
+      ["Amount paid",   @booking.amount_paid_cents.to_i > 0 ? "$#{@booking.amount_paid_cents / 100}" : "—"],
+      ["Booked",        @booking.created_at.strftime("%b %d, %Y at %H:%M")],
+    ].each do |label, value| %>
+      <div style="display:flex; gap:24px; padding:16px 0; border-bottom:1px solid var(--border);">
+        <span style="font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); min-width:120px; padding-top:1px;"><%= label %></span>
+        <span style="font-size:14px; color:var(--parchment);"><%= value %></span>
+      </div>
+    <% end %>
+
+    <% if @booking.special_requests.present? %>
+      <div style="padding:16px 0; border-bottom:1px solid var(--border);">
+        <span style="display:block; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); margin-bottom:8px;">Notes</span>
+        <p style="font-size:14px; color:var(--parchment); margin:0; line-height:1.7;"><%= @booking.special_requests %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
