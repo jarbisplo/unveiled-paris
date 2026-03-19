@@ -62,3 +62,4 @@ end
 
 gem "stripe"
 gem "kaminari"
+gem "mailgun_rails"
