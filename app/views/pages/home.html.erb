@@ -1,6 +1,6 @@
 <%# ── SEO ──────────────────────────────────────────────────────── %>
 <% content_for :title, "Private Tours in Paris" %>
-<% content_for :description, "Private guided tours in Paris for Americans — hidden neighborhoods, long lunches, the places guidebooks miss. Maximum 6 guests. English throughout. From $350 per person." %>
+<% content_for :description, "Private guided tours in Paris for curious travelers — hidden neighborhoods, long lunches, the places guidebooks miss. Maximum 6 guests. English throughout. From $350 per person." %>
 <% content_for :canonical, "https://unveiledparis.com/" %>
 
 <% content_for :json_ld do %>
@@ -9,7 +9,7 @@
   "@context": "https://schema.org",
   "@type": "TouristInformationCenter",
   "name": "Paris Unveiled",
-  "description": "Private guided tours in Paris for American visitors. Hidden neighborhoods, long lunches, the places guidebooks miss.",
+  "description": "Private guided tours in Paris for curious travelers. Hidden neighborhoods, long lunches, the places guidebooks miss.",
   "url": "https://unveiledparis.com",
   "telephone": "",
   "email": "hello@mail.unveiledparis.com",
@@ -153,7 +153,7 @@
 
     <div>
       <p class="serif" style="font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--parchment); margin:0 0 14px;">Paris Unveiled</p>
-      <p style="font-size:13px; color:var(--dim); line-height:1.7; margin:0 0 20px; max-width:220px;">Private guided tours for Americans who want more than the standard itinerary.</p>
+      <p style="font-size:13px; color:var(--dim); line-height:1.7; margin:0 0 20px; max-width:220px;">Private guided tours for travelers who want more than the standard itinerary.</p>
       <a href="mailto:hello@unveiledparis.com" style="font-size:12px; color:var(--brass);">hello@unveiledparis.com</a>
     </div>
 
@@ -194,9 +194,37 @@
     </div>
   </div>
 
-  <div style="max-width:900px; margin:0 auto; padding:20px 32px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-    <span style="font-size:11px; color:#3a3a3a;">&copy; <%= Date.today.year %> Paris Unveiled. All rights reserved.</span>
-    <span style="font-size:11px; color:#3a3a3a;">unveiledparis.com</span>
+  <div style="max-width:900px; margin:0 auto; padding:20px 32px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <span style="font-size:11px; color:#3a3a3a;">&copy; <%= Date.today.year %> Paris Unveiled. All rights reserved.</span>
+      <span style="font-size:11px; color:#3a3a3a;">Made by <a href="https://spaceman.tech" target="_blank" rel="noopener" style="color:#5a5a5a; border-bottom:1px solid #3a3a3a;">Spaceman Tech LLC</a></span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:10px;">
+      <%# Stripe badge %>
+      <div style="display:flex; align-items:center; gap:5px; padding:4px 10px; border:1px solid #2a2a2a; border-radius:4px;">
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.5 0C2.91 0 0 2.91 0 6.5S2.91 13 6.5 13 13 10.09 13 6.5 10.09 0 6.5 0zm.9 9.3c-.18.07-.47.14-.83.14-1.47 0-2.45-.88-2.45-2.44 0-1.5.98-2.45 2.45-2.45.35 0 .64.07.82.14l-.17.67c-.16-.06-.37-.12-.63-.12-.87 0-1.44.57-1.44 1.76 0 1.12.55 1.72 1.43 1.72.24 0 .47-.05.64-.12l.18.7z" fill="#5a5a70"/>
+        </svg>
+        <span style="font-size:10px; color:#5a5a70; letter-spacing:0.03em;">Secured by Stripe</span>
+      </div>
+
+      <%# Visa %>
+      <div style="background:#1a1a2e; border:1px solid #2a2a2a; border-radius:3px; padding:3px 7px; display:flex; align-items:center; justify-content:center;">
+        <span style="font-size:9px; font-weight:700; color:#1a73e8; letter-spacing:0.05em; font-family:sans-serif;">VISA</span>
+      </div>
+
+      <%# Mastercard %>
+      <div style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:3px; padding:3px 6px; display:flex; align-items:center; gap:2px;">
+        <div style="width:11px; height:11px; border-radius:50%; background:#eb001b; opacity:0.85;"></div>
+        <div style="width:11px; height:11px; border-radius:50%; background:#f79e1b; opacity:0.85; margin-left:-5px;"></div>
+      </div>
+
+      <%# Amex %>
+      <div style="background:#1a2a3a; border:1px solid #2a2a2a; border-radius:3px; padding:3px 6px;">
+        <span style="font-size:9px; font-weight:700; color:#5a9fd4; letter-spacing:0.04em; font-family:sans-serif;">AMEX</span>
+      </div>
+    </div>
   </div>
 </footer>
 
