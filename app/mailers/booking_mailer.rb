@@ -1,5 +1,5 @@
 class BookingMailer < ApplicationMailer
-  default from: "Paris in Private <hello@parisinprivate.com>"
+  default from: "Unveiled Paris <hello@unveiledparis.com>"
 
   def confirmation(booking)
     @booking = booking

@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "Paris in Private <hello@parisinprivate.com>"
+  default from: "Unveiled Paris <hello@unveiledparis.com>"
   layout "mailer"
 end
