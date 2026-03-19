@@ -33,8 +33,20 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.delivery_method = :letter_opener
-  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_url_options = { host: "localhost", port: 3001 }
+
+  # Toggle real Mailgun sending via ENV (default: preview with letter_opener)
+  if ENV['DEV_MAILGUN'] == 'true'
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.delivery_method = :mailgun
+    config.action_mailer.mailgun_settings = {
+      api_key: ENV['MAILGUN_API_KEY'],
+      domain:  ENV.fetch('MAILGUN_DOMAIN', 'mail.unveiledparis.com')
+    }
+  else
+    config.action_mailer.delivery_method = :letter_opener
+    config.action_mailer.perform_deliveries = true
+  end
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
