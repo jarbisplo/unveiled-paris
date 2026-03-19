@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <%# ── Core ──────────────────────────────────────────────── %>
-    <title><%= content_for(:title).present? ? "#{content_for(:title)} | Unveiled Paris" : "Unveiled Paris — Private Tours in Paris for Americans" %></title>
+    <title><%= content_for(:title).present? ? "#{content_for(:title)} | Paris Unveiled" : "Paris Unveiled — Private Tours in Paris for Americans" %></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="<%= content_for(:description).present? ? content_for(:description) : "Private guided tours in Paris for American visitors. Hidden neighborhoods, long lunches, no crowds. Maximum 6 guests. English throughout." %>">
@@ -10,9 +10,9 @@
     <link rel="canonical" href="<%= content_for(:canonical).present? ? content_for(:canonical) : request.original_url.split('?').first %>">
 
     <%# ── Open Graph ─────────────────────────────────────────── %>
-    <meta property="og:site_name" content="Unveiled Paris">
+    <meta property="og:site_name" content="Paris Unveiled">
     <meta property="og:type" content="<%= content_for(:og_type).present? ? content_for(:og_type) : "website" %>">
-    <meta property="og:title" content="<%= content_for(:title).present? ? "#{content_for(:title)} | Unveiled Paris" : "Unveiled Paris — Private Tours in Paris for Americans" %>">
+    <meta property="og:title" content="<%= content_for(:title).present? ? "#{content_for(:title)} | Paris Unveiled" : "Paris Unveiled — Private Tours in Paris for Americans" %>">
     <meta property="og:description" content="<%= content_for(:description).present? ? content_for(:description) : "Private guided tours in Paris for American visitors. Hidden neighborhoods, long lunches, no crowds." %>">
     <meta property="og:url" content="<%= request.original_url.split('?').first %>">
     <meta property="og:image" content="https://unveiledparis.com<%= content_for(:og_image).present? ? content_for(:og_image) : "/og-image.jpg" %>">
@@ -22,7 +22,7 @@
 
     <%# ── Twitter Card ───────────────────────────────────────── %>
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<%= content_for(:title).present? ? "#{content_for(:title)} | Unveiled Paris" : "Unveiled Paris — Private Tours in Paris for Americans" %>">
+    <meta name="twitter:title" content="<%= content_for(:title).present? ? "#{content_for(:title)} | Paris Unveiled" : "Paris Unveiled — Private Tours in Paris for Americans" %>">
     <meta name="twitter:description" content="<%= content_for(:description).present? ? content_for(:description) : "Private guided tours in Paris for American visitors. Hidden neighborhoods, long lunches, no crowds." %>">
     <meta name="twitter:image" content="https://unveiledparis.com<%= content_for(:og_image).present? ? content_for(:og_image) : "/og-image.jpg" %>">
 
