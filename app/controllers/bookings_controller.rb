@@ -55,14 +55,19 @@ class BookingsController < ApplicationController
     Stripe::Checkout::Session.create(
       payment_method_types: ["card"],
       line_items: [{
-        price_data: {
-          currency: "usd",
-          product_data: { name: booking.package.name },
-          unit_amount: booking.package.price_cents
-        },
-        quantity: booking.group_size
+        price: booking.package.stripe_price_id,
+        quantity: 1
       }],
       mode: "payment",
+      customer_email: booking.email,
+      metadata: {
+        booking_id:   booking.id,
+        tour:         booking.package.name,
+        date:         booking.tour_date.to_s,
+        group_size:   booking.group_size,
+        guest_name:   "#{booking.first_name} #{booking.last_name}",
+        phone:        booking.phone.to_s
+      },
       success_url: booking_success_url(session_id: "{CHECKOUT_SESSION_ID}"),
       cancel_url: booking_cancelled_url
     )
