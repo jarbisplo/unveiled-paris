@@ -1,56 +1,122 @@
-<% content_for :title, "Bookings — Admin" %>
+<% content_for :title, "Dashboard — Paris Unveiled" %>
 
 <div style="padding:40px 32px; max-width:1100px; margin:0 auto;">
-  <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:40px;">
-    <h1 class="serif" style="font-size:28px; font-weight:400; color:var(--parchment); margin:0;">Bookings</h1>
-    <span style="font-size:13px; color:var(--dim);"><%= @bookings.total_count %> total</span>
+
+  <%# Header %>
+  <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
+    <h1 class="serif" style="font-size:28px; font-weight:400; color:var(--parchment); margin:0;">Dashboard</h1>
+    <a href="<%= admin_calendar_feed_path %>" style="font-size:12px; color:var(--brass); border-bottom:1px solid rgba(185,151,90,0.4); padding-bottom:1px;">
+      Subscribe to calendar feed
+    </a>
   </div>
 
-  <div style="overflow-x:auto;">
-    <table style="width:100%; border-collapse:collapse; font-size:13px;">
-      <thead>
-        <tr style="border-bottom:1px solid var(--border);">
-          <th style="text-align:left; padding:10px 16px 10px 0; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Name</th>
-          <th style="text-align:left; padding:10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Email</th>
-          <th style="text-align:left; padding:10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Tour</th>
-          <th style="text-align:left; padding:10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Date</th>
-          <th style="text-align:center; padding:10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Guests</th>
-          <th style="text-align:left; padding:10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Status</th>
-          <th style="text-align:right; padding:10px 0 10px 16px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400;">Paid</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @bookings.each do |booking| %>
-          <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:14px 16px 14px 0; color:var(--parchment);">
-              <%= link_to booking.full_name, admin_booking_path(booking), style: "border-bottom:1px solid var(--border);" %>
-            </td>
-            <td style="padding:14px 16px; color:var(--dim);"><%= booking.email %></td>
-            <td style="padding:14px 16px; color:var(--dim);"><%= booking.package.name %></td>
-            <td style="padding:14px 16px; color:var(--dim);"><%= booking.tour_date&.strftime("%b %d, %Y") %></td>
-            <td style="padding:14px 16px; text-align:center; color:var(--dim);"><%= booking.group_size %></td>
-            <td style="padding:14px 16px;">
-              <% color = booking.confirmed? ? "#6a9a6a" : booking.cancelled? ? "#9a5a5a" : "#8a8070" %>
-              <span style="font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:<%= color %>;"><%= booking.status %></span>
-            </td>
-            <td style="padding:14px 0 14px 16px; text-align:right; color:var(--dim);">
-              <% if booking.amount_paid_cents.to_i > 0 %>
-                $<%= booking.amount_paid_cents / 100 %>
-              <% else %>
-                —
-              <% end %>
-            </td>
-          </tr>
+  <%# Stats row %>
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:4px; overflow:hidden; margin-bottom:48px;">
+    <% [
+      ["Upcoming tours",     @stats[:upcoming_count], nil],
+      ["This month",         @stats[:this_month],     nil],
+      ["Pending payment",    @stats[:pending_count],  @stats[:pending_count] > 0 ? "#b07a5a" : nil],
+      ["Total revenue",      "$#{@stats[:total_revenue].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\1,').reverse}", nil]
+    ].each do |label, value, color| %>
+      <div style="background:var(--surface); padding:24px 20px;">
+        <p style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dim); margin:0 0 8px;"><%= label %></p>
+        <p style="font-size:28px; font-weight:400; color:<%= color || "var(--parchment)" %>; margin:0; font-family:'Cormorant Garamond', Georgia, serif;"><%= value %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Upcoming tours %>
+  <div style="margin-bottom:56px;">
+    <h2 style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dim); font-weight:400; margin:0 0 20px; border-bottom:1px solid var(--border); padding-bottom:12px;">Upcoming tours</h2>
+
+    <% if @upcoming.empty? %>
+      <p style="font-size:14px; color:var(--dim); padding:24px 0;">No upcoming confirmed tours.</p>
+    <% else %>
+      <div style="display:flex; flex-direction:column; gap:1px;">
+        <% @upcoming.each do |booking| %>
+          <% days_away = (booking.tour_date - Date.today).to_i %>
+          <% urgency = days_away <= 3 ? "#b07a5a" : days_away <= 7 ? "var(--brass)" : "var(--dim)" %>
+          <%= link_to admin_booking_path(booking), style: "display:grid; grid-template-columns:100px 1fr auto auto; gap:24px; align-items:center; padding:16px 0; border-bottom:1px solid var(--border); text-decoration:none;" do %>
+            <%# Date block %>
+            <div>
+              <p style="font-size:20px; font-weight:400; color:var(--parchment); margin:0; font-family:'Cormorant Garamond', Georgia, serif; line-height:1;">
+                <%= booking.tour_date.strftime("%-d %b") %>
+              </p>
+              <p style="font-size:11px; color:<%= urgency %>; margin:4px 0 0; letter-spacing:0.04em;">
+                <%= days_away == 0 ? "Today" : days_away == 1 ? "Tomorrow" : "#{days_away} days" %>
+              </p>
+            </div>
+            <%# Tour + guest %>
+            <div>
+              <p style="font-size:14px; color:var(--parchment); margin:0 0 3px;"><%= booking.full_name %></p>
+              <p style="font-size:12px; color:var(--dim); margin:0;"><%= booking.package.name %> &middot; <%= booking.group_size %> <%= booking.group_size == 1 ? "guest" : "guests" %></p>
+            </div>
+            <%# Phone %>
+            <p style="font-size:13px; color:var(--dim); margin:0; white-space:nowrap;"><%= booking.phone %></p>
+            <%# Calendar link %>
+            <%= link_to "Add to calendar", calendar_admin_booking_path(booking),
+                style: "font-size:11px; color:var(--brass); white-space:nowrap; border-bottom:1px solid rgba(185,151,90,0.3); padding-bottom:1px;",
+                onclick: "event.stopPropagation()" %>
+          <% end %>
         <% end %>
-      </tbody>
-    </table>
+      </div>
+    <% end %>
   </div>
 
-  <% if @bookings.empty? %>
-    <p style="padding:48px 0; text-align:center; color:var(--dim); font-size:14px;">No bookings yet.</p>
-  <% end %>
+  <%# All bookings table %>
+  <div>
+    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:12px;">
+      <h2 style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--dim); font-weight:400; margin:0;">All bookings</h2>
+      <span style="font-size:12px; color:var(--dim);"><%= @bookings.total_count %> total</span>
+    </div>
 
-  <div style="margin-top:32px;">
-    <%= paginate @bookings %>
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:13px;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border);">
+            <% ["Name", "Tour", "Date", "Guests", "Status", "Paid"].each_with_index do |h, i| %>
+              <th style="text-align:<%= i == 5 ? 'right' : 'left' %>; padding:10px 16px 10px <%= i == 0 ? '0' : '16px' %>; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); font-weight:400; white-space:nowrap;"><%= h %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @bookings.each do |booking| %>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:14px 16px 14px 0; color:var(--parchment); white-space:nowrap;">
+                <%= link_to booking.full_name, admin_booking_path(booking), style: "border-bottom:1px solid var(--border);" %>
+              </td>
+              <td style="padding:14px 16px; color:var(--dim); white-space:nowrap;"><%= booking.package.name %></td>
+              <td style="padding:14px 16px; color:var(--dim); white-space:nowrap;"><%= booking.tour_date&.strftime("%b %-d, %Y") %></td>
+              <td style="padding:14px 16px; color:var(--dim);"><%= booking.group_size %></td>
+              <td style="padding:14px 16px;">
+                <% color = booking.confirmed? ? "#6a9a6a" : booking.cancelled? ? "#9a5a5a" : "#8a8070" %>
+                <span style="font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:<%= color %>;"><%= booking.status %></span>
+              </td>
+              <td style="padding:14px 0 14px 16px; text-align:right; color:var(--dim); white-space:nowrap;">
+                <%= booking.amount_paid_cents.to_i > 0 ? "$#{booking.amount_paid_cents / 100}" : "—" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <% if @bookings.empty? %>
+      <p style="padding:48px 0; text-align:center; color:var(--dim); font-size:14px;">No bookings yet.</p>
+    <% end %>
+
+    <div style="margin-top:32px;">
+      <%= paginate @bookings %>
+    </div>
   </div>
+
 </div>
+
+<style>
+  @media (max-width: 640px) {
+    div[style*="grid-template-columns:repeat(4"] { grid-template-columns: 1fr 1fr !important; }
+    div[style*="grid-template-columns:100px"] { grid-template-columns: 80px 1fr !important; }
+    div[style*="grid-template-columns:100px"] > p:nth-child(3),
+    div[style*="grid-template-columns:100px"] > a:last-child { display: none; }
+  }
+</style>

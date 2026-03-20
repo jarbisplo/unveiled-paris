@@ -7,7 +7,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "bookings#index"
-    resources :bookings, only: [:index, :show]
+    resources :bookings, only: [:index, :show] do
+      member { get :calendar }
+    end
+    get "calendar.ics", to: "bookings#feed", as: :calendar_feed
   end
 
   get "sitemap.xml", to: "sitemaps#index", defaults: { format: :xml }

@@ -1,9 +1,11 @@
 <% content_for :title, "#{@booking.full_name} — Admin" %>
 
 <div style="padding:40px 32px; max-width:600px; margin:0 auto;">
-  <p style="margin-bottom:32px;">
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:32px; flex-wrap:wrap; gap:12px;">
     <%= link_to "← All bookings", admin_root_path, style: "font-size:13px; color:var(--dim); border-bottom:1px solid var(--border); padding-bottom:1px;" %>
-  </p>
+    <%= link_to "Add to calendar", calendar_admin_booking_path(@booking),
+        style: "font-size:12px; color:var(--brass); border-bottom:1px solid rgba(185,151,90,0.4); padding-bottom:1px;" %>
+  </div>
 
   <h1 class="serif" style="font-size:28px; font-weight:400; color:var(--parchment); margin:0 0 8px;"><%= @booking.full_name %></h1>
 
