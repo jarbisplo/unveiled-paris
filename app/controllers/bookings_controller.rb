@@ -30,7 +30,7 @@ class BookingsController < ApplicationController
       Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
       stripe_session = Stripe::Checkout::Session.retrieve(params[:session_id])
       @booking = Booking.find_by(stripe_session_id: params[:session_id])
-      if @booking && stripe_session.payment_status == "paid"
+      if @booking && stripe_session.payment_status == "paid" && @booking.pending?
         @booking.update(status: :confirmed, amount_paid_cents: stripe_session.amount_total)
         BookingMailer.confirmation(@booking).deliver_later
         GuideMailer.new_booking(@booking).deliver_later
