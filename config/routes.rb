@@ -11,6 +11,13 @@ Rails.application.routes.draw do
       member { get :calendar }
     end
     get "calendar.ics", to: "bookings#feed", as: :calendar_feed
+
+    # Stripe Connect
+    get    "stripe",            to: "stripe#show",              as: :stripe
+    post   "stripe/connect",   to: "stripe#connect",           as: :stripe_connect
+    get    "stripe/return",    to: "stripe#return_from_stripe", as: :stripe_return
+    get    "stripe/refresh",   to: "stripe#refresh",           as: :stripe_refresh
+    delete "stripe/disconnect", to: "stripe#disconnect",       as: :stripe_disconnect
   end
 
   get "sitemap.xml", to: "sitemaps#index", defaults: { format: :xml }

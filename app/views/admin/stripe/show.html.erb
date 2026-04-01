@@ -1,0 +1,68 @@
+<% content_for :title, "Payments — Admin" %>
+
+<div style="padding:40px 32px; max-width:600px; margin:0 auto;">
+  <p style="margin-bottom:32px;">
+    <%= link_to "← Dashboard", admin_root_path, style: "font-size:13px; color:var(--dim); border-bottom:1px solid var(--border); padding-bottom:1px;" %>
+  </p>
+
+  <h1 class="serif" style="font-size:28px; font-weight:400; color:var(--parchment); margin:0 0 8px;">Payments</h1>
+  <p style="font-size:13px; color:var(--dim); margin:0 0 40px;">Connect your Stripe account to receive payments directly.</p>
+
+  <% if flash[:notice] %>
+    <div style="padding:14px 20px; background:#1a2a1a; border:1px solid #2a3a2a; border-radius:4px; margin-bottom:24px;">
+      <p style="font-size:13px; color:#6a9a6a; margin:0;"><%= flash[:notice] %></p>
+    </div>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div style="padding:14px 20px; background:#2a1a1a; border:1px solid #3a2a2a; border-radius:4px; margin-bottom:24px;">
+      <p style="font-size:13px; color:#9a5a5a; margin:0;"><%= flash[:alert] %></p>
+    </div>
+  <% end %>
+
+  <div style="border:1px solid var(--border); border-radius:4px; overflow:hidden;">
+    <% if @connected && @account %>
+      <%# Connected state %>
+      <div style="padding:24px;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+          <div style="width:10px; height:10px; border-radius:50%; background:<%= @account.charges_enabled ? '#6a9a6a' : '#b07a5a' %>;"></div>
+          <span style="font-size:14px; color:var(--parchment);"><%= @account.charges_enabled ? "Connected" : "Onboarding incomplete" %></span>
+        </div>
+
+        <div style="border-top:1px solid var(--border);">
+          <% [
+            ["Account", @account.id],
+            ["Business", @account.business_profile&.name || @account.email || "—"],
+            ["Charges", @account.charges_enabled ? "Enabled" : "Not yet"],
+            ["Payouts", @account.payouts_enabled ? "Enabled" : "Not yet"],
+            ["Platform fee", "#{SiteConfig.platform_fee_percent.to_i}% per booking"]
+          ].each do |label, value| %>
+            <div style="display:flex; gap:24px; padding:14px 0; border-bottom:1px solid var(--border);">
+              <span style="font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--dim); min-width:110px; padding-top:2px;"><%= label %></span>
+              <span style="font-size:13px; color:var(--parchment);"><%= value %></span>
+            </div>
+          <% end %>
+        </div>
+
+        <div style="margin-top:24px; display:flex; gap:16px; flex-wrap:wrap;">
+          <% unless @account.charges_enabled %>
+            <%= link_to "Complete onboarding", admin_stripe_refresh_path, style: "font-size:13px; color:var(--brass); border-bottom:1px solid rgba(185,151,90,0.4); padding-bottom:1px;" %>
+          <% end %>
+          <a href="https://dashboard.stripe.com/<%= @account.id %>" target="_blank" rel="noopener" style="font-size:13px; color:var(--dim); border-bottom:1px solid var(--border); padding-bottom:1px;">Open Stripe dashboard</a>
+          <%= button_to "Disconnect", admin_stripe_disconnect_path, method: :delete,
+              style: "font-size:12px; color:#9a5a5a; background:none; border:none; cursor:pointer; border-bottom:1px solid #3a2a2a; padding:0 0 1px;",
+              data: { confirm: "This will disconnect your Stripe account. Are you sure?" } %>
+        </div>
+      </div>
+    <% else %>
+      <%# Not connected state %>
+      <div style="padding:48px 24px; text-align:center;">
+        <p style="font-size:15px; color:var(--parchment); margin:0 0 8px;">No Stripe account connected</p>
+        <p style="font-size:13px; color:var(--dim); margin:0 0 28px; line-height:1.7;">Connect your Stripe account to start accepting<br>card payments for your tours.</p>
+        <%= button_to "Connect with Stripe", admin_stripe_connect_path,
+            style: "font-size:13px; font-weight:500; color:#fff; background:#635bff; border:none; padding:12px 28px; border-radius:4px; cursor:pointer; letter-spacing:0.02em;" %>
+        <p style="font-size:11px; color:var(--dim); margin:20px 0 0;">Platform fee: <%= SiteConfig.platform_fee_percent.to_i %>% per booking</p>
+      </div>
+    <% end %>
+  </div>
+</div>

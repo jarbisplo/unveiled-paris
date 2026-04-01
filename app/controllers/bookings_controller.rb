@@ -52,7 +52,8 @@ class BookingsController < ApplicationController
 
   def create_stripe_session(booking)
     Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
-    Stripe::Checkout::Session.create(
+
+    session_params = {
       payment_method_types: ["card"],
       line_items: [{
         price: booking.package.stripe_price_id,
@@ -70,6 +71,18 @@ class BookingsController < ApplicationController
       },
       success_url: booking_success_url(session_id: "{CHECKOUT_SESSION_ID}"),
       cancel_url: booking_cancelled_url
-    )
+    }
+
+    # Stripe Connect: route payment to guide, keep platform fee
+    if SiteConfig.stripe_connected?
+      fee_percent = SiteConfig.platform_fee_percent / 100.0
+      fee_amount = (booking.package.price_cents * fee_percent).round
+      session_params[:payment_intent_data] = {
+        application_fee_amount: fee_amount,
+        transfer_data: { destination: SiteConfig.stripe_account_id }
+      }
+    end
+
+    Stripe::Checkout::Session.create(session_params)
   end
 end

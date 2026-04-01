@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_19_162228) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_01_142534) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -41,6 +41,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_19_162228) do
     t.string "stripe_price_id"
     t.string "tagline"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "site_configs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "key"
+    t.datetime "updated_at", null: false
+    t.text "value"
+    t.index ["key"], name: "index_site_configs_on_key"
   end
 
   add_foreign_key "bookings", "packages"
