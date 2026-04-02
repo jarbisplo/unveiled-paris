@@ -5,13 +5,9 @@
   <%# Header %>
   <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
     <h1 class="serif" style="font-size:28px; font-weight:400; color:var(--parchment); margin:0;">Dashboard</h1>
-    <div style="display:flex; gap:20px; align-items:center;">
-      <%= link_to "Payments", admin_stripe_path,
-          style: "font-size:12px; color:var(--brass); border-bottom:1px solid rgba(185,151,90,0.4); padding-bottom:1px;" %>
-      <a href="<%= admin_calendar_feed_path %>" style="font-size:12px; color:var(--dim); border-bottom:1px solid var(--border); padding-bottom:1px;">
-        Calendar feed
-      </a>
-    </div>
+    <a href="<%= admin_calendar_feed_path %>" style="font-size:12px; color:var(--dim); border-bottom:1px solid var(--border); padding-bottom:1px;">
+      Subscribe to calendar feed
+    </a>
   </div>
 
   <%# Stats row %>

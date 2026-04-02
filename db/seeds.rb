@@ -31,3 +31,15 @@ Package.create!([
 ])
 
 puts "Seeded #{Package.count} packages."
+
+# Admin users
+[
+  { name: "Javier", email: "jarb95@gmail.com", password: "ParisAdmin2026!" },
+  { name: "Jose",   email: "josepazinv@gmail.com", password: "ParisAdmin2026!" }
+].each do |attrs|
+  AdminUser.find_or_create_by!(email: attrs[:email]) do |u|
+    u.name     = attrs[:name]
+    u.password = attrs[:password]
+  end
+end
+puts "Seeded #{AdminUser.count} admin users."

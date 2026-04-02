@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, path: "admin", path_names: {
+    sign_in: "login", sign_out: "logout"
+  }
   root "pages#home"
   get  "/book",           to: "bookings#new",       as: :new_booking
   post "/book",           to: "bookings#create",    as: :bookings
