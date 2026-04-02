@@ -7,7 +7,7 @@ APP_DIR="/home/deploy/apps/unveiled-paris"
 RBENV="export PATH=\"\$HOME/.rbenv/bin:\$PATH\" && eval \"\$(rbenv init -)\""
 
 echo "==> Pushing to GitHub..."
-git push origin main
+GIT_SSH_COMMAND="ssh -i $HOME/.ssh/github_deploy -o StrictHostKeyChecking=no" git push origin main
 
 echo "==> Deploying to server..."
 ssh -i "$SSH_KEY" "$SERVER" "
